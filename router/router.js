@@ -45,10 +45,18 @@ export default new Router({
               name:'article_info',
               component: () =>
               import("../src/views/article/article_info")
-            }
+            },
+            
           ]
         },
-        
+        {
+          path:"/user/:id",
+          name:"user",
+          /* redirect:'/home/article', */
+          component: () =>
+          import( "../src/views/user/usermain.vue"),
+          children:[] 
+        }
       ]
     },
     {

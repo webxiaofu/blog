@@ -10,9 +10,9 @@
                 ref="login">
             <!-- 正常登录登录名输入框 -->
             <div class="input-prepend restyle js-normal">
-              <input placeholder="邮箱"
+              <input placeholder="用户名"
                      type="text"
-                     v-model="formData.email"
+                     v-model="formData.username"
                      @keyup.enter="login"
                      value="">
               <i class="el-icon-user-solid"></i>
@@ -60,23 +60,28 @@
 </template>
 
 <script>
-
-
+import { mapState } from 'vuex'
+import api from '../../../api/api'
 export default {
   name: 'SignIn',
   data () {
     return {
       formData: {
-        email: '',
-        phone: '',
-        type: 'email',
+        username: '',
+        /* phone: '', */
+        /* type: 'email', */
         password: '',
       }
     }
   },
   methods: {
     login () {
-      
+      api.toLogin(this.formData).then((result) => {
+        if(result.data.status == '1'){
+          this.$store.commit('SET_PERSONAL_INFO',result.data.user)
+          this.$router.push({ name: 'home' })
+        }
+      });
     },
     tapRegister () {
       this.$router.push({ name: 'register' })
@@ -87,6 +92,9 @@ export default {
   },
   components: {
     
+  },
+  computed: {
+    ...mapState(['personalInfo'])
   }
 }
 </script>
@@ -171,7 +179,7 @@ export default {
     }
     i {
       position: absolute;
-      top: 12px;
+      top: 8px;
       left: 12px;
       font-size: 18px;
       color: #969696;

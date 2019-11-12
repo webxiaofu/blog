@@ -15,7 +15,7 @@ export default {};
 </script>
 <style lang="less" scoped>
 #center {
-  height: 1200px;
+  min-height: 1000px;
   position: relative;
   margin: 0 auto;
   display: flex;
@@ -31,7 +31,7 @@ export default {};
     flex-direction: column;
     margin-left: 15px;
     width: 250px;
-    height: 1200px;
+    min-height: 1000px;
     background: #fff;
     img {
       width: 100%;
@@ -40,7 +40,7 @@ export default {};
 }
 @media (max-width: 992px) {
   #center {
-    height: 1200px;
+    min-height: 1000px;
     position: relative;
     margin: 0 auto;
     display: flex;
@@ -58,7 +58,7 @@ export default {};
       margin-left: 15px;
       width: 200px;
       /* flex: 1; */
-      height: 1200px;
+      min-height: 1000px;
       background: #fff;
       img {
         width: 100%;

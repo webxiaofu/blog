@@ -11,7 +11,7 @@
                 ref="register">
 
             <div class="input-prepend restyle js-normal">
-              <input v-model="formData.nickname"
+              <input v-model="formData.username"
                      type="text"
                      class="nickname"
                      placeholder="你的昵称">
@@ -68,36 +68,85 @@
     </section>
 </template>
 <script>
-import sendcode from "../../components/send-code/send-code"
+import  sendCode  from '../../components/sendCode/send-code'
+import api from '../../../api/api'
 export default {
+    
     data () {
     return {
       isSendCode: false,
       isSendCodeSuccess: false, // 验证码是否发送
+      code:'',
       formData: {
-        nickname: '',
+        username: '',
         email: '',
-        phone: '',
+        /* phone: '', */
         code: '',
-        type: 'email',
+        /* type: 'email', */
         password: '',
-        double_password: ''
+        double_password: '',
+        role:'',
+        articles:{
+          myself:[]
+        },
+        address:'',
+        photo:'',
+        description:'',
+        homepage:''
       }
     }
   },
   methods: {
     sendCode () { // 发送注册验证码
-      
+      //console.log('aaa')
+      this.isSendCodeSuccess = true
+      api.sendEmailCode({email:this.formData.email}).then((result) => {
+        this.isSendCodeSuccess = false
+        
+        if (result.data.status == '1') {
+            this.isSendCode = true
+            console.log(result)
+            this.code = result.data.code
+          } else {
+            this.$message.warning(result.data.msg)
+            
+          }
+      });
+
     },
     register () {
-      
+      if(this.formData.username =='' || 
+        this.formData.email =='' || 
+        this.formData.code =='' ||
+        this.formData.password =='' ||
+        this.formData.double_password ==''
+      ){
+        this.$message.warning('请把信息填写完整！') 
+        return
+      } else if(!(this.code == this.formData.code)){
+        this.$message.warning('验证码不正确！') 
+        return
+      } else if(this.formData.password != this.formData.double_password){
+        this.$message.warning('两次密码不一样！')
+        return
+      } else{
+        console.log('注册')
+        api.toRegister(this.formData).then((result) => {
+          if(result.data.status == '1') {
+            this.$message.success('注册成功！')
+            this.$router.push({ name: 'login' })
+          }else{
+            this.$message.error('注册失败！')
+          }
+        });
+      }
     },
     tapSign () {
       this.$router.push({ name: 'login' })
     }
   },
   components: {
-    'send-code': sendcode,
+    'send-code': sendCode,
     
   }
 }

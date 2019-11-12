@@ -28,7 +28,7 @@
         </div>
         <div
           id="buttons"
-          v-if="islogin"
+          v-if="!personalInfo.islogin"
         >
           <!-- <el-button
             type="text"
@@ -37,22 +37,21 @@
           <el-button type="text" @click="login()">登录</el-button>
           <el-button type="danger" round @click="registered()">注册</el-button>
         </div>
-        <div id="writing_logo" v-if="!islogin">
+        <div id="writing_logo" v-if="personalInfo.islogin">
           <i class="el-icon-edit"></i>
         </div>
-        <div id="logo" v-if="!islogin">
-          <el-dropdown>
+        <div id="logo" v-if="personalInfo.islogin">
+          <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
               <img
                 src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572598683452&di=ce269c5d352d5dc8bda878bb354c319d&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201508%2F08%2F20150808222125_URnah.jpeg"
                 alt=""
               >
             </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>黄金糕</el-dropdown-item>
-              <el-dropdown-item>狮子头</el-dropdown-item>
-              <el-dropdown-item>螺蛳粉</el-dropdown-item>
-
+            <el-dropdown-menu slot="dropdown" >
+              <el-dropdown-item command='homepage'>我的主页</el-dropdown-item>
+              <el-dropdown-item command='setting'>设置</el-dropdown-item>
+              <el-dropdown-item command='logout'>登出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -64,18 +63,35 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       input1: "",
-      islogin: true
+      
     };
   },
   creared() {},
   methods:{
     login(){
-      this.$router.push('/login')
+      this.$router.push({ name: 'login' })
+    },
+    registered(){
+      this.$router.push({ name: 'register' })
+    },
+    handleCommand(command) {
+      if(command == 'logout'){
+        console.log('登出')
+        this.$store.commit('SET_LOGIN_OUT')
+      }
+      if(command == 'homepage'){
+        const _id = this.personalInfo.user._id
+        this.$router.push({ path: `/user/${_id}` })
+      }  
     }
+  },
+  computed:{
+    ...mapState(['personalInfo'])
   }
 };
 </script>

@@ -2,18 +2,19 @@
   <article class="content-box content-box-index">
     <div
       class="info-box"
-      v-if="articleItem.aid"
+      v-if="articleItem._id"
     >
       <div class="info-row title-row">
-        <router-link
+        <router-link 
+          
           class="title"
-          :to="{name:'article',params:{aid:articleItem.aid}}"
+          :to="{name:'article_info',params:{id:articleItem._id}}"
         >{{articleItem.title}}</router-link>
       </div>
 
       <div class="info-row meta-row">
         <ul class="meta-list">
-          <li
+          <!-- <li
             class="item"
             v-if="!articleItem.article_blog"
           >
@@ -21,9 +22,9 @@
               :to="{name:'user',params:{uid:articleItem.user.uid,routeType:'article'}}"
               class="name"
             >{{articleItem.user.nickname}}</router-link>
-          </li>
+          </li> -->
           <li class="item">
-            <time>{{articleItem.create_dt}}</time>
+            <time>{{articleItem.create_data | dateChange}}</time>
           </li>
           <li class="item item-icon read-count">
             <i class="el-icon-view"></i>
@@ -31,72 +32,57 @@
           </li>
           <li class="item item-icon like-article">
             <i class="el-icon-star-off"></i>
-            <strong v-text="articleItem.like_count"></strong>
+            <strong v-text="articleItem.collect_count"></strong>
           </li>
           <li class="item item-icon comment-count">
             <i class="el-icon-chat-dot-round"></i>
             <strong v-text="articleItem.comment_count"></strong>
           </li>
-          <li
-            class="item"
-            v-if="articleItem.tag_ids"
-          >
-            <router-link
-              v-for="(itemTag,key) in articleItem.tag"
-              class="tag-class frontend"
-              :key="key"
-              :to="{name:'article_tag',params:{en_name:itemTag.en_name}}"
-            >{{itemTag.name}}</router-link>
-
+          <li class="item">
+            <a class="tag-class frontend"
+            >{{articleItem.tag}}</a>
           </li>
-          <li
-            class="item"
-            v-if="String(articleItem.type)==='2'"
+          <!-- <li
+            class="item" 
           >
-            {{articleTypeList[String(articleItem.type)]}}
-          </li>
+            {{}}
+          </li> -->
         </ul>
       </div>
 
       <div
         class="info-row footer-view"
-        v-if="articleItem.article_blog"
       >
         <router-link
-          :to="{name:'user',params:{uid:articleItem.user.uid,routeType:'article'}}"
+          :to="{name:'user',params:{id:articleItem.author.author_id}}"
           class="avatar"
         >
           <img
-            v-lazy="articleItem.user.avatar"
+            v-lazy="articleItem.author.photo"
             alt=""
           >
         </router-link>
         <router-link
-          :to="{name:'user',params:{uid:articleItem.user.uid,routeType:'article'}}"
+          :to="{name:'user',params:{id:articleItem.author.author_id}}"
           class="name"
-        >{{articleItem.user.nickname}}</router-link>
+        >{{articleItem.author.author_name}}</router-link>
         <span>发布于专栏</span>
-        <router-link
+        <a
           class="article-blog"
-          v-if="articleItem.article_blog"
-          :to="{name:'articleBlog',params:{blogId:articleItem.article_blog.blog_id}}"
         >
-          {{articleItem.article_blog.name}}
-        </router-link>
-        <span
-          class="article-blog"
-          v-else
-        >正在审核中的专栏</span>
+          {{articleItem.column}}
+        </a>
+        
       </div>
 
     </div>
     <div
       class="thumb"
-      v-if="articleItem.cover_img"
+      
     >
       <img
         class="box-image"
-        v-lazy="articleItem.cover_img"
+        v-lazy="articleItem.picture"
         alt=""
       >
     </div>
@@ -128,6 +114,9 @@ export default {
   padding: 0.8rem 0;
   min-height: 5.75rem;
   .info-box {
+    a {
+        text-decoration: none;
+    }
     .router-link-active{
         text-decoration: none;
     }
