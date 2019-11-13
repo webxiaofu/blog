@@ -1,7 +1,7 @@
 <template>
-  <div id="center">
-    <div id="center_left">
-      <div class="user_msg">
+  <div id="center" v-if="userInfo"  >
+    <div id="center_left" >
+      <div class="user_msg" >
         <div class="content">
 
           <img
@@ -11,7 +11,7 @@
 
           <div class="msg_info">
             <div class="name_box">
-              <h1>fxd</h1>
+              <h1>{{userInfo.username}}</h1>
               <div><i class="el-icon-ali icon-github"></i>
                 <i class="el-icon-ali icon-weibo"></i>
                 <i class="el-icon-ali icon-diqiu"></i></div>
@@ -21,15 +21,15 @@
                 <ul>
                   <li>
                     <div class="meta-block">
-                      <p>0</p>
+                      <p>{{ userInfo.focusOn.focusOn_number }}</p>
                       <strong>
-                        我的关注
+                        {{ personalInfo.user._id === userInfo._id ? '我的关注' : '他的关注'}}
                       </strong>
                     </div>
                   </li>
                   <li>
                     <div class="meta-block">
-                      <p>0</p>
+                      <p>{{ userInfo.fans.fans_number }}</p>
                       <strong>
                         粉丝
                       </strong>
@@ -37,14 +37,16 @@
                   </li>
                   <li>
                     <div class="meta-block">
-                      <p>0</p>
+                      <p>{{ userInfo.articles.number }}</p>
                       <strong>
                         文章
                       </strong>
                     </div>
                   </li>
                 </ul>
-                <div class="guanzhu"><el-button type="success" round>关注</el-button></div>
+                <div class="guanzhu" v-if="( personalInfo.user._id !== userInfo._id ) && personalInfo.islogin">
+                  <el-button type="success" round>关注</el-button>
+                </div>
               </div>
               
             </div>
@@ -61,19 +63,19 @@
           <el-tab-pane
             label="我的文章"
             name="first"
-          >文章</el-tab-pane>
-          <el-tab-pane
-            label="我的图片"
-            name="second"
-          >图片</el-tab-pane>
+          ><articlesView v-if="tab_index == '0'"></articlesView></el-tab-pane>
           <el-tab-pane
             label="我的音乐"
+            name="second"
+          ><musicsView v-if="tab_index == '1'"></musicsView></el-tab-pane>
+          <el-tab-pane
+            label="我的图片"
             name="third"
-          >音乐</el-tab-pane>
+          ><picturesView v-if="tab_index == '2'"></picturesView></el-tab-pane>
           <el-tab-pane
             label="我的收藏"
             name="fourth"
-          >关注</el-tab-pane>
+          ></el-tab-pane>
         </el-tabs>
       </div>
 
@@ -85,22 +87,49 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+import api from '../../../api/api'
+import user_article_view from './views/user_article_view'
+import user_music_view from './views/user_music_view'
+import user_picture_view from './views/user_pcture_view'
 export default {
   data() {
     return {
-      activeName: "first"
+      activeName: "first",
+      userid: this.$route.params.id,
+      userInfo:'',
+      tab_index: '0' //根据tab条件决定渲染组件
+      
     };
+  },
+  /* activated(){
+    this.getUserMainInfo()
+  }, */
+  created(){
+    this.getUserMainInfo()
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      console.log(tab.index);
+      this.tab_index = tab.index
+    },
+    getUserMainInfo(){
+      api.toGetUserInfo(this.userid).then((result) => {
+        console.log(result)
+        if(result.data.status == '1'){
+          this.userInfo = result.data.users[0]
+        }
+      });
     }
+  },
+  computed:{
+    ...mapState(['personalInfo'])
+  },
+  components: {
+    articlesView:user_article_view,
+    musicsView:user_music_view,
+    picturesView:user_picture_view
   }
-  /* TODO 11.12 */
-  /* 
-    1、个人主页根据登陆角色id和路由上的id来显示‘我’还是‘他’以及是否显示关注按钮
-    2、新闻详情页、个人设置页、个人主页部分
-  */
 };
 </script>
 <style lang="less" scoped>

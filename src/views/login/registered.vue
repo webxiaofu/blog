@@ -1,159 +1,201 @@
 <template>
-    <section class="sign-lay layout-content">
-      <div class="sign-view client-card">
-        <div class="title">
-          注册
-        </div>
-        <div class="js-sign-in-container">
-          <form id="sign-up"
-                accept-charset="UTF-8"
-                method="post"
-                ref="register">
-
-            <div class="input-prepend restyle js-normal">
-              <input v-model="formData.username"
-                     type="text"
-                     class="nickname"
-                     placeholder="你的昵称">
-              <i class="el-icon-user-solid"></i>
-            </div>
-
-            <div class="input-prepend email-view">
-              <input v-model="formData.email"
-                     type="text"
-                     class="send-email-input account"
-                     placeholder="邮箱">
-              <i class="el-icon-message"></i>
-              <send-code :isSend="isSendCodeSuccess"
-                         v-model="isSendCode"
-                         @click.native="sendCode"
-                         storage-key="sendEmailCode"
-                         class="btn-send-email-code" />
-            </div>
-
-            <div class="input-prepend email-view-code"
-                 v-show="formData.email">
-              <input v-model="formData.code"
-                     type="text"
-                     class="send-email-code code"
-                     placeholder="请输入验证码">
-              <i class="el-icon-chat-round"></i>
-            </div>
-
-            <div class="input-prepend">
-              <input v-model="formData.password"
-                     type="password"
-                     class="password"
-                     placeholder="密码">
-              <i class="el-icon-key"></i>
-            </div>
-
-            <div class="input-prepend">
-              <input v-model="formData.double_password"
-                     type="password"
-                     class="double_password"
-                     placeholder="重复密码">
-              <i class="el-icon-key"></i>
-            </div>
-
-            <div class="footer-text">已有账户， <em @click="tapSign">登录</em></div>
-
-            <button class="sign-up-button"
-                    type="button"
-                    @click="register">注册</button>
-          </form>
-
-        </div>
+  <section class="sign-lay layout-content">
+    <div class="sign-view client-card">
+      <div class="title">
+        注册
       </div>
-    </section>
+      <div class="js-sign-in-container">
+        <form
+          id="sign-up"
+          accept-charset="UTF-8"
+          method="post"
+          ref="register"
+        >
+
+          <div class="input-prepend restyle js-normal">
+            <input
+              v-model="formData.username"
+              type="text"
+              class="nickname"
+              placeholder="你的昵称"
+            >
+            <i class="el-icon-user-solid"></i>
+          </div>
+
+          <div class="input-prepend email-view">
+            <input
+              v-model="formData.email"
+              type="text"
+              class="send-email-input account"
+              placeholder="邮箱"
+            >
+            <i class="el-icon-message"></i>
+            <send-code
+              :isSend="isSendCodeSuccess"
+              v-model="isSendCode"
+              @click.native="sendCode"
+              storage-key="sendEmailCode"
+              class="btn-send-email-code"
+            />
+          </div>
+
+          <div
+            class="input-prepend email-view-code"
+            v-show="formData.email"
+          >
+            <input
+              v-model="formData.code"
+              type="text"
+              class="send-email-code code"
+              placeholder="请输入验证码"
+            >
+            <i class="el-icon-chat-round"></i>
+          </div>
+
+          <div class="input-prepend">
+            <input
+              v-model="formData.password"
+              type="password"
+              class="password"
+              placeholder="密码"
+            >
+            <i class="el-icon-key"></i>
+          </div>
+
+          <div class="input-prepend">
+            <input
+              v-model="formData.double_password"
+              type="password"
+              class="double_password"
+              placeholder="重复密码"
+            >
+            <i class="el-icon-key"></i>
+          </div>
+
+          <div class="footer-text">已有账户， <em @click="tapSign">登录</em></div>
+
+          <button
+            class="sign-up-button"
+            type="button"
+            @click="register"
+          >注册</button>
+        </form>
+
+      </div>
+    </div>
+  </section>
 </template>
 <script>
-import  sendCode  from '../../components/sendCode/send-code'
-import api from '../../../api/api'
+import sendCode from "../../components/sendCode/send-code";
+import api from "../../../api/api";
 export default {
-    
-    data () {
+  data() {
     return {
       isSendCode: false,
       isSendCodeSuccess: false, // 验证码是否发送
-      code:'',
+      code: "",
       formData: {
-        username: '',
-        email: '',
+        username: "",
+        email: "",
         /* phone: '', */
-        code: '',
+        code: "",
         /* type: 'email', */
-        password: '',
-        double_password: '',
-        role:'',
-        articles:{
-          myself:[]
+        password: "",
+        double_password: "",
+        role: "",
+        articles: {
+          myself: {
+            write: [],
+            collect: []
+          },
+          number:'0'
         },
-        address:'',
-        photo:'',
-        description:'',
-        homepage:''
+        musics: {
+          myself: {
+            upload: [],
+            collect: []
+          },
+          number:'0'
+        },
+        pictures: {
+          myself: {
+            upload: [],
+            collect: []
+          },
+          number:'0'
+        },
+        fans: {
+          fans_number: "0",
+          fans_id: []
+        },
+        focusOn: {
+          focusOn_number: "0",
+          focusOn_id: []
+        },
+        address: "",
+        photo: "",
+        description: "",
+        homepage: ""
       }
-    }
+    };
   },
   methods: {
-    sendCode () { // 发送注册验证码
+    sendCode() {
+      // 发送注册验证码
       //console.log('aaa')
-      this.isSendCodeSuccess = true
-      api.sendEmailCode({email:this.formData.email}).then((result) => {
-        this.isSendCodeSuccess = false
-        
-        if (result.data.status == '1') {
-            this.isSendCode = true
-            console.log(result)
-            this.code = result.data.code
-          } else {
-            this.$message.warning(result.data.msg)
-            
-          }
-      });
+      this.isSendCodeSuccess = true;
+      api.sendEmailCode({ email: this.formData.email }).then(result => {
+        this.isSendCodeSuccess = false;
 
+        if (result.data.status == "1") {
+          this.isSendCode = true;
+          console.log(result);
+          this.code = result.data.code;
+        } else {
+          this.$message.warning(result.data.msg);
+        }
+      });
     },
-    register () {
-      if(this.formData.username =='' || 
-        this.formData.email =='' || 
-        this.formData.code =='' ||
-        this.formData.password =='' ||
-        this.formData.double_password ==''
-      ){
-        this.$message.warning('请把信息填写完整！') 
-        return
-      } else if(!(this.code == this.formData.code)){
-        this.$message.warning('验证码不正确！') 
-        return
-      } else if(this.formData.password != this.formData.double_password){
-        this.$message.warning('两次密码不一样！')
-        return
-      } else{
-        console.log('注册')
-        api.toRegister(this.formData).then((result) => {
-          if(result.data.status == '1') {
-            this.$message.success('注册成功！')
-            this.$router.push({ name: 'login' })
-          }else{
-            this.$message.error('注册失败！')
+    register() {
+      if (
+        this.formData.username == "" ||
+        this.formData.email == "" ||
+        this.formData.code == "" ||
+        this.formData.password == "" ||
+        this.formData.double_password == ""
+      ) {
+        this.$message.warning("请把信息填写完整！");
+        return;
+      } else if (!(this.code == this.formData.code)) {
+        this.$message.warning("验证码不正确！");
+        return;
+      } else if (this.formData.password != this.formData.double_password) {
+        this.$message.warning("两次密码不一样！");
+        return;
+      } else {
+        console.log("注册");
+        api.toRegister(this.formData).then(result => {
+          if (result.data.status == "1") {
+            this.$message.success("注册成功！");
+            this.$router.push({ name: "login" });
+          } else {
+            console.log(result);
+            this.$message.error(result.data.msg);
           }
         });
       }
     },
-    tapSign () {
-      this.$router.push({ name: 'login' })
+    tapSign() {
+      this.$router.push({ name: "login" });
     }
   },
   components: {
-    'send-code': sendCode,
-    
+    "send-code": sendCode
   }
-}
+};
 </script>
 <style lang="less" scoped>
-
-    .client-card {
+.client-card {
   position: relative;
   display: flex;
   flex-direction: column;

@@ -80,6 +80,8 @@ export default {
         if(result.data.status == '1'){
           this.$store.commit('SET_PERSONAL_INFO',result.data.user)
           this.$router.push({ name: 'home' })
+        }else{
+          this.$message.warning(result.data.msg)
         }
       });
     },

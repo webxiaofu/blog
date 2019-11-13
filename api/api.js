@@ -59,5 +59,8 @@ export default {
     },
     toGetArticles(data1,data2,data3){
         return gethttp(`/v1/articles/getArticles?page=${data1}&pagesize=${data2}&sortId=${data3}`)
+    },
+    toGetUserInfo(data1){
+        return gethttp(`/v1/users/findAllUsers?id=${data1}`)
     }
 }

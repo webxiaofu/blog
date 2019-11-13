@@ -2,7 +2,7 @@
     <div id="main">
         <box-header />
         
-        <router-view />
+        <router-view :key="key"></router-view>
         
         
     </div>
@@ -17,7 +17,12 @@ export default {
     },
     components: {
         'box-header': header,
-    }
+    },
+    computed:{
+	    key(){
+	        return this.$route.path + Math.random();
+	    }
+	}
 }
 </script>
 <style lang="less" scoped>

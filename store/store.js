@@ -12,7 +12,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    personalInfo: {
+    personalInfo: {    //储存登录用户的信息
       islogin:false,
       user: {}
     }
