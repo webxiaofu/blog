@@ -38,14 +38,15 @@
           <el-button type="danger" round @click="registered()">注册</el-button>
         </div>
         <div id="writing_logo" v-if="personalInfo.islogin">
-          <i class="el-icon-edit"></i>
+          <i class="el-icon-edit" @click="writeArticles()"></i>
         </div>
         <div id="logo" v-if="personalInfo.islogin">
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
-              <img
-                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572598683452&di=ce269c5d352d5dc8bda878bb354c319d&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201508%2F08%2F20150808222125_URnah.jpeg"
+              <img   
+                
                 alt=""
+                v-lazy="personalInfo.user.photo"
               >
             </span>
             <el-dropdown-menu slot="dropdown" >
@@ -88,6 +89,9 @@ export default {
         const _id = this.personalInfo.user._id
         this.$router.push({ path: `/user/${_id}` })
       }  
+    },
+    writeArticles(){
+      this.$router.push({name: 'createWrite',params: {type:'create'}})
     }
   },
   computed:{

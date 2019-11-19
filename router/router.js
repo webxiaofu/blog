@@ -56,6 +56,13 @@ export default new Router({
           component: () =>
           import( "../src/views/user/usermain.vue"),
           children:[] 
+        },
+        {
+          path:"/write/:type",
+          name:"createWrite",
+          component: () =>
+          import("../src/views/write/writeArticles.vue"),
+          children:[]
         }
       ]
     },
