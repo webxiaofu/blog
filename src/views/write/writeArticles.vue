@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <el-input
-      v-model="input"
+      v-model="articleData.title"
       placeholder="请输入标题"
     ></el-input>
     <div>
@@ -16,9 +16,12 @@
         :on-error="uploadError"
         :before-upload="beforeUpload"
         :limit="1"
+        
       >
       </el-upload>
-      <!--富文本编辑器组件-->
+      <!--富文本编辑器组件--> <!-- :auto-upload="false"
+        :file-list="fileList"
+        ref="upload" -->
       <el-row v-loading="quillUpdateImg">
         <quill-editor
           v-model="content"
@@ -31,18 +34,55 @@
         </quill-editor>
       </el-row>
     </div>
-    <el-button
-      type="primary"
-      @click="uploadArticles()"
-    >发布文章</el-button>
+    <div class="selects">
+      <div class="select-left">
+        <!--  <label for="" class="labelStyle">标签</label> -->
+        <el-select
+          v-model="articleData.tag"
+          placeholder="请选择标签"
+        >
+          <el-option
+            v-for="item in option1"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </div>
+      <div class="select-right">
+        <!-- <label for="" class="labelStyle">专栏</label> -->
+        <el-select
+          v-model="articleData.column"
+          placeholder="请选择专栏"
+        >
+          <el-option
+            v-for="item in option2"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </div>
+    </div>
+    
+    <div class="footer-button">
+      <el-button
+        type="primary"
+        @click="uploadArticles()"
+      >发布文章</el-button>
+    </div>
+
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+      fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
       quillUpdateImg: false, // 根据图片上传状态来确定是否显示loading动画，刚开始是false,不显示
-      content: '<p>阿三打</p>',
+      content: "",
       editorOption: {
         modules: {
           toolbar: {
@@ -79,8 +119,39 @@ export default {
           }
         }
       },
-      input: "",
-      serverUrl: "/v1/upload" // 这里写你要上传的图片服务器地址
+      option1: [
+        //标签
+        {
+          value: "文章",
+          label: "文章"
+        }
+      ],
+      option2: [
+        //专栏
+        {
+          value: "爱国主义",
+          label: "爱国主义"
+        }
+      ],
+      serverUrl: "/v1/upload", // 这里写你要上传的图片服务器地址
+      articleData: {
+        //文章相关字段
+        title: "",
+        create_data: "",
+        comment_count: "0",
+        read_count: "0",
+        collect_count: "0",
+        tag: "",
+        column: "",
+        content: "",
+        author: {
+          author_name: "",
+          author_id: "",
+          photo:
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572598683452&di=ce269c5d352d5dc8bda878bb354c319d&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201508%2F08%2F20150808222125_URnah.jpeg"
+        },
+        picture: ""
+      }
     };
   },
   computed: {
@@ -104,7 +175,7 @@ export default {
     // 上传图片前
     beforeUpload(file) {
       this.quillUpdateImg = true;
-      console.log(file)
+      console.log(file);
       const isIMG =
         file.type === "image/jpg" ||
         file.type === "image/jpeg" ||
@@ -155,12 +226,36 @@ export default {
   width: 960px;
   margin: 20px auto 0 auto;
   /* height: 500px; */
- /*  background-color: #fff; */
+  background-color: #fff;
+  .selects {
+    display: flex;
+    margin-top: 20px;
+    .select-left {
+      flex: 1;
+    }
+    .select-right {
+      flex: 1;
+    }
+  }
+  .footer-button {
+    margin-top: 50px;
+    padding-bottom: 20px;
+  }
 }
 
- .main /deep/ .ql-editor{
+.main /deep/ .ql-editor {
   min-height: 600px;
 }
-
-
+.el-select {
+  display: inline-block;
+  position: relative;
+  width: 95%;
+}
+.main /deep/.ql-toolbar.ql-snow {
+  border: 1px solid #dcdfe6;
+  border-bottom: 0px;
+}
+.main /deep/.ql-container.ql-snow {
+  border: 1px solid #dcdfe6;
+}
 </style>
