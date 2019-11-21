@@ -62,5 +62,8 @@ export default {
     },
     toGetUserInfo(data1){
         return gethttp(`/v1/users/findAllUsers?id=${data1}`)
+    },
+    toCreateArticles(params){
+        return posthttp('/v1/articles/createArticle',params)
     }
 }

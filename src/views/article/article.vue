@@ -31,7 +31,7 @@ export default {
       tabsChoose: 0,
       article_list:'',
       page:1,
-      pagesize:5,
+      pagesize:10,
       sortId:0
     };
   },

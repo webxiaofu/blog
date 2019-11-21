@@ -1,4 +1,6 @@
 <template>
+<!-- TODO -->
+<!-- 编辑器待优化！ -->
   <div class="main">
     <el-input
       v-model="articleData.title"
@@ -24,7 +26,7 @@
         ref="upload" -->
       <el-row v-loading="quillUpdateImg">
         <quill-editor
-          v-model="content"
+          v-model="articleData.content"
           ref="myQuillEditor"
           :options="editorOption"
           @blur="onEditorBlur($event)"
@@ -77,10 +79,12 @@
   </div>
 </template>
 <script>
+import  api  from '../../../api/api'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
+      
       quillUpdateImg: false, // 根据图片上传状态来确定是否显示loading动画，刚开始是false,不显示
       content: "",
       editorOption: {
@@ -170,7 +174,21 @@ export default {
       alert(this.content);
     },
     uploadArticles() {
-      console.log(this.content);
+      //console.log(this.content);
+      this.articleData.create_data = (new Date()).valueOf();
+      this.articleData.author.author_name = this.personalInfo.user.username;
+      this.articleData.author.author_id = this.personalInfo.user._id;
+      console.log(this.articleData)
+      /* TODO 条件校验*/
+      api.toCreateArticles(this.articleData).then((result) => {
+        console.log(result)
+        if(result.data.status == '1'){
+          this.$message.success('上传成功！');
+          this.$router.push({name:'article_info',params:{id:result.data.articlesInfo._id}})
+        }else{
+          this.$message.error('上传失败！');
+        }
+      });
     },
     // 上传图片前
     beforeUpload(file) {
@@ -218,6 +236,9 @@ export default {
       this.quillUpdateImg = false;
       this.$message.error("图片插入失败");
     }
+  },
+  computed:{
+    ...mapState(['personalInfo'])
   }
 };
 </script>
