@@ -65,5 +65,8 @@ export default {
     },
     toCreateArticles(params){
         return posthttp('/v1/articles/createArticle',params)
+    },
+    toGetArticleInfo(params){
+        return gethttp(`/v1/articles/getArticleInfoById?id=${params}`)
     }
 }

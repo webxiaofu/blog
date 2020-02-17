@@ -25,21 +25,25 @@ Vue.use(VueLazyload, {
 })
 //时间过滤器
 Vue.filter('dateChange', function (timespan) {
-  var dateTime = new Date(timespan);
+  var timespan_bzsj = new Date(parseInt(timespan)); 
 
-  var year = dateTime.getFullYear();
-  var month = dateTime.getMonth() + 1;
-  var day = dateTime.getDate();
-  var hour = dateTime.getHours();
-  var minute = dateTime.getMinutes();
-  var second = dateTime.getSeconds();
+  var year = timespan_bzsj.getFullYear();
+  var month = timespan_bzsj.getMonth() + 1;
+  var day = timespan_bzsj.getDate();
+  var hour = timespan_bzsj.getHours();
+  var minute = timespan_bzsj.getMinutes();
+  var second = timespan_bzsj.getSeconds();
   
   var now_new = (new Date()).valueOf();  
-
+  var now_new_bzsj = new Date(now_new)
   var milliseconds = 0;
   var timeSpanStr;
-
+  console.log(year,'year')
+  console.log(timespan_bzsj)
+  console.log(now_new)
+  console.log(now_new_bzsj)
   milliseconds = parseInt(now_new) - parseInt(timespan);
+  console.log(milliseconds)
   /* console.log(timespan)
   console.log(now_new)
   console.log(milliseconds) */
@@ -55,7 +59,7 @@ Vue.filter('dateChange', function (timespan) {
   else if (1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 15) {
     timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前';
   }
-  else if (milliseconds > 1000 * 60 * 60 * 24 * 15 && year == now.getFullYear()) {
+  else if (milliseconds > 1000 * 60 * 60 * 24 * 15 && year == now_new_bzsj.getFullYear()) {
     timeSpanStr = month + '-' + day + ' ' + hour + ':' + minute;
   } else {
     timeSpanStr = year + '-' + month + '-' + day + ' ' + hour + ':' + minute;

@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-import article_box from "./components/article_box";
+/* import article_box from "./components/article_box"; */
 import article_item from "./components/article_item";
 import api from "../../../api/api"
 export default {
@@ -55,7 +55,7 @@ export default {
     }
   },
   components: {
-    articleBox: article_box,
+    /* articleBox: article_box, */
     articleItem: article_item
   }
 };
