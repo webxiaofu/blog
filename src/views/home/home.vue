@@ -16,7 +16,7 @@ export default {};
 </script>
 <style lang="less" scoped>
 #center {
-  min-height: 1000px;
+  //min-height: 1000px;
   position: relative;
   margin: 0 auto;
   display: flex;
@@ -24,7 +24,7 @@ export default {};
   margin-top: 10px;
   #center_left {
     width: 700px;
-    height: 1200px;
+    min-height: 1000px;
     background: #fff;
   }
   #center_right {
@@ -32,7 +32,7 @@ export default {};
     flex-direction: column;
     margin-left: 15px;
     width: 250px;
-    min-height: 1000px;
+    //min-height: 1000px;
     background: #fff;
     img {
       width: 100%;

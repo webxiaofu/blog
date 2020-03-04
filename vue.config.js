@@ -8,5 +8,6 @@ module.exports = {
           pathRewrite: { '^/v1': ''}
         }
       }
-    }
+    },
+    lintOnSave: false
   }

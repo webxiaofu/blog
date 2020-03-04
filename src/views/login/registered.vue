@@ -17,11 +17,19 @@
               v-model="formData.username"
               type="text"
               class="nickname"
+              placeholder="你的账号"
+            >
+            <i class="el-icon-user-solid"></i>
+          </div>
+          <div class="input-prepend restyle js-normal">
+            <input
+              v-model="formData.nickname"
+              type="text"
+              class="nickname"
               placeholder="你的昵称"
             >
             <i class="el-icon-user-solid"></i>
           </div>
-
           <div class="input-prepend email-view">
             <input
               v-model="formData.email"
@@ -95,6 +103,7 @@ export default {
       isSendCodeSuccess: false, // 验证码是否发送
       code: "",
       formData: {
+        nickname:"",
         username: "",
         email: "",
         /* phone: '', */

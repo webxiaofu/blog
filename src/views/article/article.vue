@@ -10,7 +10,11 @@
         {{item.name}}
       </a>
     </div>
+    <div v-if="article_list.length == 0">
+      没有数据
+    </div>
     <div
+      v-else
       v-for="(item,index) in article_list"
       :key="index"
       id="articleItem"

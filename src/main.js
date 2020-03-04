@@ -38,12 +38,12 @@ Vue.filter('dateChange', function (timespan) {
   var now_new_bzsj = new Date(now_new)
   var milliseconds = 0;
   var timeSpanStr;
-  console.log(year,'year')
+  /* console.log(year,'year')
   console.log(timespan_bzsj)
   console.log(now_new)
-  console.log(now_new_bzsj)
+  console.log(now_new_bzsj) */
   milliseconds = parseInt(now_new) - parseInt(timespan);
-  console.log(milliseconds)
+  //console.log(milliseconds)
   /* console.log(timespan)
   console.log(now_new)
   console.log(milliseconds) */

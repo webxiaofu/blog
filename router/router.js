@@ -63,6 +63,25 @@ export default new Router({
           component: () =>
           import("../src/views/write/writeArticles.vue"),
           children:[]
+        },
+        {
+          path:"/setting/:id",
+          name:"setting",
+          component:()=>
+          import("../src/views/user/setting.vue"),
+          children:[
+            {
+              path: 'profile',
+              name: 'settingProfile',
+              component: () => import('../src/views/user/views/profile.vue') // 修改资料
+            },
+            {
+              path: 'reset-password',
+              name: 'settingResetPassword',
+              component: () => import('../src/views/user/views/reset-password.vue') // 重置密码
+            }
+          ],
+          redirect: { name: 'settingProfile' }
         }
       ]
     },

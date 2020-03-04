@@ -22,7 +22,7 @@
             <strong v-text="articleItem.read_count"></strong> -->
           </li>
           <li class="item item-icon like-article">
-            收藏：{{articleInfo.collect}}
+            收藏：{{articleInfo.collect_count}}
             <!-- <i class="el-icon-star-off"></i>
             <strong v-text="articleItem.collect_count"></strong> -->
           </li>
@@ -38,17 +38,23 @@
     </div>
     <!-- TODO -->
     <!-- 评论模块 -->
+    <div><ArticleComment /></div>
+    
   </div>
 
 </template>
 <script>
 import api from "../../../api/api"
+import ArticleComment from '../comments/ArticleComment'
 export default {
   data() {
     return {
       article_id:this.$route.params.id,
       articleInfo:{author:{}},//文章详情信息
     };
+  },
+  components: {
+    ArticleComment
   },
   created() { 
     this.getArticleInfoById()

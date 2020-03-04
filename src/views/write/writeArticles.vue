@@ -176,7 +176,7 @@ export default {
     uploadArticles() {
       //console.log(this.content);
       this.articleData.create_data = (new Date()).valueOf();
-      this.articleData.author.author_name = this.personalInfo.user.username;
+      this.articleData.author.author_name = this.personalInfo.user.nickname;
       this.articleData.author.author_id = this.personalInfo.user._id;
       console.log(this.articleData)
       /* TODO 条件校验*/

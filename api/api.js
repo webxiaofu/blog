@@ -1,9 +1,10 @@
 import axios from 'axios';
+import store from '../store/store'
 const http = axios.create();
 
 http.interceptors.request.use(request => {
   const token = window.localStorage.getItem('token');
-  if (token) {
+  if (token && store.state.personalInfo.islogin) {
     // 此处有坑，下方记录
     request.headers['Authorization'] = `Bearer ${token}`;
   }
@@ -21,9 +22,9 @@ http.interceptors.response.use(
     error => {
         const errRes = error.response;
         if (errRes.status === 401) {
-
+            
         }
-        return Promise.reject(error.message); // 返回接口返回的错误信息
+        return Promise.reject(errRes); // 返回接口返回的错误信息
     });
 export function gethttp(url, params) {
     return new Promise((resolve, reject) => {
@@ -68,5 +69,37 @@ export default {
     },
     toGetArticleInfo(params){
         return gethttp(`/v1/articles/getArticleInfoById?id=${params}`)
+    },
+    toAddComments(params){ //提交评论
+        return posthttp('/v1/comments/addComments',params)
+    },
+    /* toAddComments(params){ //提交评论
+        return axios({
+            url: '/v1/comments/addComments',
+            method: 'post',
+            data: params
+        })
+    }, */
+    
+    togetComments(data1,data2,data3){ //获取评论
+        return gethttp(`/v1/comments/getCommentsById?id=${data1}&page=${data2}&pagesize=${data3}`)
+    },
+    todeleteComments(params){ //删除评论
+        return posthttp('/v1/comments/deleteComments',params)
+    },
+    toaddReadCount(data1){ //监听文章阅读数的接口
+        return gethttp(`/v1/articles/addReadCount?id=${data1}`)
+    },
+    togetUserArticles(data1,data2,data3){ //获取用户 发布的文章信息
+        return gethttp(`/v1/articles/findArticleByUid?uid=${data1}&page=${data2}&pagesize=${data3}`)
+    },
+    todeleteArticles(data1,data2){ //删除文章
+        return gethttp(`/v1/users/deleteArticle?uid=${data1}&aid=${data2}`)
+    },
+    tofocusonOther(params){ //关注他人接口
+        return posthttp('/v1/users/FocusOnOthers',params)
+    },
+    toupdateUserInfo(params){ //修改个人信息
+        return posthttp('/v1/users/updateUserInfo',params)
     }
 }

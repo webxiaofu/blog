@@ -84,11 +84,16 @@ export default {
       if(command == 'logout'){
         console.log('登出')
         this.$store.commit('SET_LOGIN_OUT')
+        localStorage.removeItem('token')
       }
       if(command == 'homepage'){
         const _id = this.personalInfo.user._id
         this.$router.push({ path: `/user/${_id}` })
-      }  
+      }
+      if(command == 'setting'){
+        const _id = this.personalInfo.user._id
+        this.$router.push({ path: `/setting/${_id}` })
+      }   
     },
     writeArticles(){
       this.$router.push({name: 'createWrite',params: {type:'create'}})

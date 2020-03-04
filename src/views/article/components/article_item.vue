@@ -6,7 +6,7 @@
     >
       <div class="info-row title-row">
         <router-link 
-          
+          @click.native="handleClickArticle(articleItem._id)"
           class="title"
           :to="{name:'article_info',params:{id:articleItem._id}}"
         >{{articleItem.title}}</router-link>
@@ -89,6 +89,7 @@
   </article>
 </template>
 <script>
+import api from '../../../../api/api'
 export default {
   data() {
     return {
@@ -100,6 +101,18 @@ export default {
           type: Object,
           default: {}
       }
+  },
+  methods:{
+    handleClickArticle(id){ //点击阅读文章 阅读量+1
+      console.log(id,'hagsdhagdjagsjh')
+      api.toaddReadCount(id).then((result) => {
+        if(result.data.status == '1'){
+          console.log(result)
+        }
+      }).catch((err) => {
+        console.log(err)
+      });
+    }
   }
 };
 </script>

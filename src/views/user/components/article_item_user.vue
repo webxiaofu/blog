@@ -3,6 +3,8 @@
     <div
       class="info-box"
       v-if="articleItem._id"
+      :id="'article'+articleItem._id"
+      ref="article_list"
     >
       <div class="info-row title-row">
         <router-link
@@ -10,13 +12,13 @@
           :to="{name:'article_info',params:{id:articleItem._id}}"
         >{{articleItem.title}}</router-link>
 
-        <el-dropdown trigger="click">
+        <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link">
             <i class="el-icon-more"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>编辑</el-dropdown-item>
-            <el-dropdown-item>删除</el-dropdown-item>
+            <el-dropdown-item command='edit'>编辑</el-dropdown-item>
+            <el-dropdown-item command='delete'>删除</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
 
@@ -81,6 +83,7 @@
 
 </template>
 <script>
+import api from '../../../../api/api'
 export default {
   data() {
     return {};
@@ -90,6 +93,24 @@ export default {
       type: Object,
       default: {}
     }
+  },
+  methods:{
+    handleCommand(command){
+      //console.log(command)
+      if(command == 'delete'){  //删除文章
+        //console.log(this.articleItem._id,this.$route.params.id)
+        api.todeleteArticles(this.$route.params.id,this.articleItem._id).then((result) => {
+          if(result.data.status == '1'){
+            document.querySelector("#article" + this.articleItem._id + "").style.display = "none";
+            this.$message.success('删除成功！');
+          }else{
+            this.$message.warning('删除失败！');
+          }
+        }).catch((err) => {
+          
+        });
+      }
+    } 
   }
 };
 </script>
