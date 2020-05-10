@@ -27,35 +27,89 @@
 <script>
 /* import article_box from "./components/article_box"; */
 import article_item from "./components/article_item";
-import api from "../../../api/api"
+import api from "../../../api/api";
 export default {
   data() {
     return {
-      tabs: [{ name: "最新" }, { name: "最热" }, { name: "最多赞" }],
+      tabs: [{ name: "最新" }, { name: "最热" }, { name: "最多评论" }],
       tabsChoose: 0,
-      article_list:'',
-      page:1,
-      pagesize:10,
-      sortId:0
+      article_list: [],
+      page: 1,
+      pagesize: 8,
+      count:'',
+      sortId: 0,
+      flag:true,//节流
+      scrollTop: 0, //滚动条位置
+      offsetHeight: 0, //可视区高
+      scrollHeight: 0, //滚动区域
+      noMoreData: false
     };
   },
-  created(){
+  created() {
     this.sortId = 0;
-    this.getArticles()
+    this.getArticles();
+  },
+  mounted() {
+    let _this = this;
+    window.addEventListener("scroll", _this.bindScroll);
+  },
+  watch: {
+    //观察滚动条位置
+    scrollTop: function() {
+      console.log("当前滚动条高" + this.scrollTop);
+      console.log("可视区高" + this.offsetHeight);
+      console.log("滚动条高" + this.scrollHeight);
+
+      if (this.scrollHeight <= this.offsetHeight + this.scrollTop ) {
+        // 拉取更多数据
+        //return  this.getMoreData();
+        if(this.falg){
+          console.log("到底了");
+          this.page +=1
+          this.getArticles()
+        }
+        
+      }
+    }
   },
   methods: {
     changeClick(index) {
+      this.page = 1
+      this.article_list = []
       this.tabsChoose = index;
       this.sortId = index;
       this.getArticles()
+      /* api.toGetArticles(this.page, this.pagesize, this.sortId).then(result => {
+        if (result.data.status == "1") {
+          
+          
+          this.article_list = this.article_list.concat(result.data.articles);
+          this.count = result.data.count
+        }
+      }); */
     },
-    getArticles(){
-      api.toGetArticles(this.page,this.pagesize,this.sortId).then((result) => {
-      if(result.data.status == '1'){
-        console.log(result)
-        this.article_list = result.data.articles;
-      }    
-    })
+    getArticles() {
+      //this.article_list = []
+      api.toGetArticles(this.page, this.pagesize, this.sortId).then(result => {
+        if (result.data.status == "1") {
+          this.falg = true
+          if(result.data.articles.length == 0){
+            this.falg = false
+          }
+          console.log(result);
+          this.article_list = this.article_list.concat(result.data.articles);
+          this.count = result.data.count
+        }
+      });
+    },
+    loadmore() {
+      console.log("lodemore1111");
+      //this.article_list = this.article_list.concat(this.article_list)
+    },
+    bindScroll() {
+      this.scrollTop = document.documentElement.scrollTop;
+      this.scrollHeight = document.documentElement.scrollHeight;
+      this.offsetHeight = document.documentElement.offsetHeight;
     }
   },
   components: {
@@ -66,6 +120,8 @@ export default {
 </script>
 <style lang="less" scoped>
 #article {
+  /* height: 1000px;
+  overflow: auto; */
   #tab {
     height: 50px;
     border-bottom: 1px solid #f1f1f1;
@@ -86,7 +142,7 @@ export default {
       color: #007fff;
     }
   }
-  #articleItem{
+  #articleItem {
     border-bottom: 1px solid #f1f1f1;
   }
 }

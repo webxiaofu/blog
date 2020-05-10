@@ -12,11 +12,11 @@
           :to="{name:'article_info',params:{id:articleItem._id}}"
         >{{articleItem.title}}</router-link>
 
-        <el-dropdown trigger="click" @command="handleCommand">
+        <el-dropdown trigger="click" @command="handleCommand" v-if="this.userid == personalInfo.user._id">
           <span class="el-dropdown-link">
             <i class="el-icon-more"></i>
           </span>
-          <el-dropdown-menu slot="dropdown">
+          <el-dropdown-menu slot="dropdown" >
             <el-dropdown-item command='edit'>编辑</el-dropdown-item>
             <el-dropdown-item command='delete'>删除</el-dropdown-item>
           </el-dropdown-menu>
@@ -58,9 +58,9 @@
           >
         </router-link> -->
         <router-link
-          :to="{name:'user',params:{id:articleItem.author.author_id}}"
+          :to="{name:'user',params:{id:articleItem.author._id}}"
           class="name"
-        >{{articleItem.author.author_name}}</router-link>
+        >{{articleItem.author.nickname}}</router-link>
         <span>发布于专栏</span>
         <a class="article-blog">
           {{articleItem.column}}
@@ -83,10 +83,13 @@
 
 </template>
 <script>
+import { mapState,mapActions  } from 'vuex'
 import api from '../../../../api/api'
 export default {
   data() {
-    return {};
+    return {
+      userid: this.$route.params.id,
+    };
   },
   props: {
     articleItem: {
@@ -109,9 +112,14 @@ export default {
         }).catch((err) => {
           
         });
-      }
+      }else if(command == 'edit'){
+        console.log()
+      } 
     } 
-  }
+  },
+  computed:{
+    ...mapState(['personalInfo'])
+  },
 };
 </script>
 <style lang="less" scoped>

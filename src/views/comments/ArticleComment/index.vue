@@ -28,7 +28,7 @@
       <div class="comment-list">
         <div id="commentlist" >
           <comment-item
-            
+            @deleteCommnet="deleteCommnet"
             :comment-item="item"
             v-for="(item,key) in articleComment"
             :key="key"
@@ -108,6 +108,9 @@ export default {
       } else {
         this.$message.warning('评论失败！');
       }
+    },
+    deleteCommnet(){
+      this.page.count -=1
     }
   },
   computed: {

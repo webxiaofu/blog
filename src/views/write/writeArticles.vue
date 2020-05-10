@@ -148,12 +148,12 @@ export default {
         tag: "",
         column: "",
         content: "",
-        author: {
-          author_name: "",
-          author_id: "",
+        author: "",/* {
+          nickname: "",
+          _id: "",
           photo:
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572598683452&di=ce269c5d352d5dc8bda878bb354c319d&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201508%2F08%2F20150808222125_URnah.jpeg"
-        },
+        }, */
         picture: ""
       }
     };
@@ -176,8 +176,9 @@ export default {
     uploadArticles() {
       //console.log(this.content);
       this.articleData.create_data = (new Date()).valueOf();
-      this.articleData.author.author_name = this.personalInfo.user.nickname;
-      this.articleData.author.author_id = this.personalInfo.user._id;
+      this.articleData.author = this.personalInfo.user._id;
+      /* this.articleData.author.nickname = this.personalInfo.user.nickname;
+      this.articleData.author._id = this.personalInfo.user._id; */
       console.log(this.articleData)
       /* TODO 条件校验*/
       api.toCreateArticles(this.articleData).then((result) => {

@@ -7,7 +7,7 @@
         <ul class="setting-tap-list">
           <li>
             <router-link
-              :to='{}'
+              :to='{name:"settingProfile"}'
               class="dropdown-item"
             >
               <i class="el-icon-user-solid"></i>个人资料
@@ -15,10 +15,10 @@
           </li>
           <li>
             <router-link
-              :to='{}'
+              :to='{name:"settingResetPassword"}'
               class="dropdown-item"
             >
-              <i class="el-icon-lock"></i> 密码修改
+              <i class="el-icon-lock"></i>密码修改
             </router-link>
           </li>
         </ul>
@@ -74,6 +74,7 @@ export default {
             padding: 10px 20px;
             font-size: 14px;
             text-decoration: none;
+            color:#2c3e50;
             i {
               margin-right: 15px;
               font-size: 18px;
@@ -81,8 +82,8 @@ export default {
             &:hover {
               color: #f46e65;
             }
-            &.current-active {
-              color: #f46e65;
+            &.router-link-active {
+              color: red;
             }
           }
         }

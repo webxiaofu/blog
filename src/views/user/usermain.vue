@@ -1,11 +1,14 @@
 <template>
-  <div id="center" v-if="userInfo"  >
-    <div id="center_left" >
-      <div class="user_msg" >
+  <div
+    id="center"
+    v-if="userInfo"
+  >
+    <div id="center_left">
+      <div class="user_msg">
         <div class="content">
 
           <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572598683452&di=ce269c5d352d5dc8bda878bb354c319d&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201508%2F08%2F20150808222125_URnah.jpeg"
+            :src="userInfo.photo"
             alt=""
           >
 
@@ -44,12 +47,25 @@
                     </div>
                   </li>
                 </ul>
-                <div class="guanzhu" v-if="( personalInfo.user._id !== userInfo._id ) && personalInfo.islogin">
-                  <el-button type="success" round v-if="personalInfo.user.focusOn.focusOn_id.includes(this.userid)" @click="focusOther(1)">取消关注</el-button>
-                  <el-button type="success" round v-if="!personalInfo.user.focusOn.focusOn_id.includes(this.userid)" @click="focusOther(0)">关注</el-button>
+                <div
+                  class="guanzhu"
+                  v-if="( personalInfo.user._id !== userInfo._id ) && personalInfo.islogin"
+                >
+                  <el-button
+                    type="success"
+                    round
+                    v-if="personalInfo.user.focusOn.focusOn_id.includes(this.userid)"
+                    @click="focusOther(1)"
+                  >取消关注</el-button>
+                  <el-button
+                    type="success"
+                    round
+                    v-if="!personalInfo.user.focusOn.focusOn_id.includes(this.userid)"
+                    @click="focusOther(0)"
+                  >关注</el-button>
                 </div>
               </div>
-              
+
             </div>
           </div>
         </div>
@@ -64,15 +80,21 @@
           <el-tab-pane
             :label=" this.userid == personalInfo.user._id ? '我的文章' : '他的文章' "
             name="first"
-          ><articlesView v-if="tab_index == '0'"></articlesView></el-tab-pane>
+          >
+            <articlesView v-if="tab_index == '0'"></articlesView>
+          </el-tab-pane>
           <el-tab-pane
             :label=" this.userid == personalInfo.user._id ? '我的音乐' : '他的音乐' "
             name="second"
-          ><musicsView v-if="tab_index == '1'"></musicsView></el-tab-pane>
+          >
+            <musicsView v-if="tab_index == '1'"></musicsView>
+          </el-tab-pane>
           <el-tab-pane
             :label=" this.userid == personalInfo.user._id ? '我的图片' : '他的图片' "
             name="third"
-          ><picturesView v-if="tab_index == '2'"></picturesView></el-tab-pane>
+          >
+            <picturesView v-if="tab_index == '2'"></picturesView>
+          </el-tab-pane>
           <el-tab-pane
             :label=" this.userid == personalInfo.user._id ? '我的收藏' : '他的收藏' "
             name="fourth"
@@ -82,79 +104,79 @@
 
     </div>
     <div id="center_right">
-      111
+      <div class="jieshao">
+        <span>个人介绍</span>
+        <span class="content">{{userInfo.description == '' ? '无' : userInfo.description}}</span>
+        <el-divider></el-divider>
+      </div>
     </div>
 
   </div>
 </template>
 <script>
-import { mapState,mapActions  } from 'vuex'
-import api from '../../../api/api'
-import user_article_view from './views/user_article_view'
-import user_music_view from './views/user_music_view'
-import user_picture_view from './views/user_pcture_view'
+import { mapState, mapActions } from "vuex";
+import api from "../../../api/api";
+import user_article_view from "./views/user_article_view";
+import user_music_view from "./views/user_music_view";
+import user_picture_view from "./views/user_pcture_view";
 export default {
   data() {
     return {
       activeName: "first",
       userid: this.$route.params.id,
-      userInfo:'',
-      tab_index: '0' //根据tab条件决定渲染组件
-      
+      userInfo: "",
+      tab_index: "0" //根据tab条件决定渲染组件
     };
   },
   /* activated(){
     this.getUserMainInfo()
   }, */
-  created(){
-    this.getUserMainInfo()
-    
+  created() {
+    this.getUserMainInfo();
   },
   methods: {
-    ...mapActions([
-      'getNewVuexUserData'
-    ]),
+    ...mapActions(["getNewVuexUserData"]),
     handleClick(tab, event) {
       console.log(tab.index);
-      this.tab_index = tab.index
+      this.tab_index = tab.index;
     },
-    getUserMainInfo(){
-      api.toGetUserInfo(this.userid).then((result) => {
-        console.log(result)
-        if(result.data.status == '1'){
-          this.userInfo = result.data.users[0]
+    getUserMainInfo() {
+      api.toGetUserInfo(this.userid).then(result => {
+        console.log(result);
+        if (result.data.status == "1") {
+          this.userInfo = result.data.users[0];
         }
       });
     },
-    focusOther(status){
+    focusOther(status) {
       let params = {
-        fid:this.userid,
-        uid:this.personalInfo.user._id,
-        status:status
-      }
-      console.log(params)
-      api.tofocusonOther(params).then((result) => {
-        if(result.data.status == 1){
-          this.getUserMainInfo()
-          this.getNewVuexUserData(this.personalInfo.user._id)
-          //this.personalInfo.user.focusOn.focusOn_id.push(this.userid)
-          this.$message.success('操作成功！')
-          
-        }else{
-          this.$message.error('操作失败！')
-        }
-      }).catch((err) => {
-        
-      });
+        fid: this.userid,
+        uid: this.personalInfo.user._id,
+        status: status
+      };
+      console.log(params);
+      api
+        .tofocusonOther(params)
+        .then(result => {
+          if (result.data.status == 1) {
+            this.getUserMainInfo();
+            this.getNewVuexUserData(this.personalInfo.user._id);
+            //this.personalInfo.user.focusOn.focusOn_id.push(this.userid)
+            this.$message.success("操作成功！");
+          } else {
+            this.$message.error("操作失败！");
+          }
+        })
+        .catch(err => {});
     }
   },
-  computed:{
-    ...mapState(['personalInfo'])
+  computed: {
+    ...mapState(["personalInfo"])
   },
   components: {
-    articlesView:user_article_view,
-    musicsView:user_music_view,
-    picturesView:user_picture_view
+    articlesView: user_article_view,
+    musicsView: user_music_view,
+    picturesView: user_picture_view
   }
 };
 </script>
@@ -197,7 +219,7 @@ export default {
               float: left;
             }
             i {
-              margin-left:30px;
+              margin-left: 30px;
               font-size: 20px;
             }
           }
@@ -235,7 +257,7 @@ export default {
                   }
                 }
               }
-              .guanzhu{
+              .guanzhu {
                 display: flex;
                 align-items: center;
               }
@@ -259,10 +281,19 @@ export default {
     flex-direction: column;
     margin-left: 15px;
     width: 250px;
-    height: 1200px;
+    height: 120px;
     background: #fff;
-    img {
-      width: 100%;
+    padding: 20px;
+    .jieshao{
+      display: flex;
+      flex-direction: column;
+      span{
+        text-align: left;
+        
+      }
+      .content{
+          padding-top: 15px;
+        }
     }
   }
 }
@@ -288,8 +319,9 @@ export default {
       /* flex: 1; */
       height: 1200px;
       background: #fff;
-      img {
-        width: 100%;
+      .jieshao{
+        display: flex;
+        flex-direction: column;
       }
     }
   }

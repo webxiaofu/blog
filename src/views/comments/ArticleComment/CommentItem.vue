@@ -121,6 +121,7 @@ export default {
             /* console.log(document)
             debugger */
             document.querySelector("#comment" + id + "").style.display = "none";
+            this.$emit("deleteCommnet");
             this.$message.success("删除成功！");
           } else {
             this.$message.warning("删除失败！");

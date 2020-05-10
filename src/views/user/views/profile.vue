@@ -166,8 +166,12 @@ export default {
       'getNewVuexUserData'
     ]),
     getUserInfo(){
+      /* todo 有问题为解决，无法及时更新 personalInfo */
       this.getNewVuexUserData(this.$route.params.id)
+      
+      console.log(this.personalInfo)
       this.formData = this.personalInfo.user
+      
     },
     // 上传图片前
     beforeUpload(file) {
@@ -202,8 +206,10 @@ export default {
       api.toupdateUserInfo(this.formData).then((result) => {
         if(result.data.status == 1){
           
-          console.log(result)
-          this.getUserInfo()
+          console.log(result,'result')
+          this.formData = result.data.data
+          this.getNewVuexUserData(this.$route.params.id)
+          //this.getUserInfo()
           this.$message.success('修改成功！')
         }
       }).catch((err) => {

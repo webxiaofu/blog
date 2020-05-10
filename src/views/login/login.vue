@@ -89,7 +89,8 @@ export default {
       this.$router.push({ name: 'register' })
     },
     tapResetPassword () {
-      
+      console.log('111')
+      this.$router.push({ name: 'findpwd' })
     }
   },
   components: {

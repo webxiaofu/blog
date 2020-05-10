@@ -1,3 +1,4 @@
+
 import api from '../api/api'
 export default {
     getNewVuexUserData({commit},data){

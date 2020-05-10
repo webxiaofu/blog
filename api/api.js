@@ -101,5 +101,23 @@ export default {
     },
     toupdateUserInfo(params){ //修改个人信息
         return posthttp('/v1/users/updateUserInfo',params)
+    },
+    toupdatePassword(params){  //修改密码
+        return posthttp('/v1/users/updatePassword',params)
+    },
+    togetAllImgTypes(){  //获取所有图片大类
+        return gethttp('/v1/pictures/getImgTypes')
+    }, 
+    togetAllImgByType(data1,data2,data3){  //获取大类下的图片数据
+        return gethttp(`/v1/pictures/getPicturesByType?page=${data1}&pagesize=${data2}&type=${data3}`)
+    },
+    togetHotArticle(){  //获取热门推荐文章数据
+        return gethttp('/v1//articles/recommendArticle')
+    },
+    toUploadImg(params){  //上传图片
+        return posthttp('/v1/pictures/SavePicture',params)
+    },
+    toResetPwd(params){  //重置密码
+        return posthttp('/v1/users/resetPwd',params)
     }
 }

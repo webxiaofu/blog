@@ -10,10 +10,20 @@ import VueQuillEditor from 'vue-quill-editor';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
-
-
+import './assets/css/mian.less'
+/* 瀑布流插件 */
+import waterfall from 'vue-waterfall2'
+Vue.use(waterfall)
 Vue.use(VueQuillEditor);
-
+/* 图片预览插件  */
+import preview from 'vue-photo-preview'
+import 'vue-photo-preview/dist/skin.css'
+let options = {
+  fullscreenEl: false
+};
+Vue.use(preview, options)
+Vue.use(preview)
+/*  */
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
@@ -31,7 +41,8 @@ Vue.filter('dateChange', function (timespan) {
   var month = timespan_bzsj.getMonth() + 1;
   var day = timespan_bzsj.getDate();
   var hour = timespan_bzsj.getHours();
-  var minute = timespan_bzsj.getMinutes();
+  //var minute = timespan_bzsj.getMinutes();
+  var minute = (timespan_bzsj.getMinutes() < 10 ? '0'+timespan_bzsj.getMinutes() : timespan_bzsj.getMinutes()) + ':';
   var second = timespan_bzsj.getSeconds();
   
   var now_new = (new Date()).valueOf();  

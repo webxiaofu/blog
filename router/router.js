@@ -29,10 +29,16 @@ export default new Router({
               
             },
             {
-              path: "/home/picture",
+              path: "/home/picture/:type",
               name: "picture",
               component: () =>
               import( "../src/views/picture/picture.vue")
+            },
+            {
+              path: "/home/picture-type",
+              name: "picture-type",
+              component: () =>
+              import( "../src/views/picture/picture-type.vue")
             },
             {
               path: "/home/music",
@@ -82,6 +88,16 @@ export default new Router({
             }
           ],
           redirect: { name: 'settingProfile' }
+        },
+        {
+          path:"comment_rule",
+          name:"comment_rule",
+          component: () => import('../src/views/Rule/CommentRule.vue')
+        },
+        {
+          path:"article_rule",
+          name:"article_rule",
+          component: () => import('../src/views/Rule/ArticleRule.vue')
         }
       ]
     },
@@ -97,6 +113,12 @@ export default new Router({
       name: "register",
       component: () =>
       import ("../src/views/login/registered.vue"),
+    },
+    {
+      path: "/findpwd",
+      name: "findpwd",
+      component: () =>
+      import ("../src/views/login/findpwd.vue"),
     }
     
   ]

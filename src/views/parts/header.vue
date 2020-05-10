@@ -3,7 +3,7 @@
     <div id="head">
       <div id="head_main">
         <img
-          src="https://b-gold-cdn.xitu.io/v3/static/img/logo.a7995ad.svg"
+          src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1588741113889&di=fe2722392ecac366f5985f46253e6561&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F8b1e5a31c3a77e6480ce40b4f4b1ac273850388314f9-Udfcrc_fw658"
           alt=""
         >
         <div id="nav_menu">
@@ -14,8 +14,8 @@
             router
           >
             <el-menu-item index="/home/article">文章</el-menu-item>
-            <el-menu-item index="/home/music">音乐</el-menu-item>
-            <el-menu-item index="/home/picture">图片</el-menu-item>
+            <!-- <el-menu-item index="/home/music">音乐</el-menu-item> -->
+            <el-menu-item index="/home/picture-type">图片</el-menu-item>
           </el-menu>
         </div>
         <div id="search_box">
@@ -122,6 +122,10 @@ export default {
       margin: 0 auto;
       display: flex;
       max-width: 960px;
+      img{
+          width: 78px;
+          height: 60px;
+        }
       .el-menu--horizontal > .el-menu-item {
         font-size: 16px;
       }
@@ -147,7 +151,7 @@ export default {
       }
     }
     #buttons {
-      margin-left: 30px;
+      margin-left:180px;
       /* margin-top: 5px; */
       .el-button--text {
         margin-top: 10px;
@@ -176,6 +180,10 @@ export default {
         margin: 0 auto;
         display: flex;
         max-width: 650px;
+        img{
+          width: 98px;
+          height: 38px;
+        }
         .el-menu--horizontal > .el-menu-item {
           font-size: 16px;
         }

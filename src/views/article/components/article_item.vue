@@ -54,7 +54,7 @@
         class="info-row footer-view"
       >
         <router-link
-          :to="{name:'user',params:{id:articleItem.author.author_id}}"
+          :to="{name:'user',params:{id:articleItem.author._id}}"
           class="avatar"
         >
           <img
@@ -63,9 +63,9 @@
           >
         </router-link>
         <router-link
-          :to="{name:'user',params:{id:articleItem.author.author_id}}"
+          :to="{name:'user',params:{id:articleItem.author._id}}"
           class="name"
-        >{{articleItem.author.author_name}}</router-link>
+        >{{articleItem.author.nickname}}</router-link>
         <span>发布于专栏</span>
         <a
           class="article-blog"
